@@ -245,9 +245,9 @@ pupm run dev
 目录：
 
 - node_modules：存放依赖包，由pnpm管理
-- public：存放静态资源（网站图标、HTML文件、第三方库）。不会被打包
+- public：存放静态资源（网站图标、HTML文件、第三方库）不会被打包，/public访问资源
 - src：存放源代码
-  - assess：存放静态资源（图片、字体、音频等），会被打包
+  - assess：存放静态资源（图片、字体、音频等），会被打包，../assess访问资源
   - components：存放Vue组件
   - App.vue：根组件，是其他组件的父组件
   - main.js：项目的入口文件，创建Vue实例并挂载到'#app'

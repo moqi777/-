@@ -4,7 +4,7 @@
         <el-button type="primary" @click="showAddDialog=true">增加</el-button>&nbsp;
         <el-button type="primary" @click="deleteAll()">删除选中</el-button>
     </p>
-    <el-table :data="carts" border style="width: 100%;display:flex;" ref="tableData">
+    <el-table :span-method="mergeRows" show-summary :summary-method="getSummaries" :data="carts" border style="width: 100%;display:flex;" ref="tableData">
         <el-table-column type="selection" width="50"></el-table-column>
         <el-table-column width="100" label="产品编号" prop="pid"></el-table-column>
         <el-table-column width="100" label="缩略图">
@@ -142,6 +142,35 @@ import { ref } from 'vue';
                 carts.value.splice(i,1);
             }
         })
+    }
+
+    //表尾合计行自定义规则
+    const getSummaries = params =>{
+        /*
+        //解包
+        const datat = {'a':123,'b':'asd'};
+        const {a,b} = datat;
+        console.log(a);
+        console.log(b);
+        */
+        //解包传过来的参数
+        //columns 表示table中所有td列的信息，td的html属性之类的
+        //data 就是数据，实际上就是carts
+        const {columns,data} = params;
+        // console.log(columns);
+        // console.log(data);
+        let sum = 0;
+        data.forEach(item =>{
+            sum += item.price * item.num;
+        })
+        //返回的数组元素依次从左往右放入尾部合计行
+        return ['','','','','','合计',"￥"+sum];
+    }
+
+    //合并行或列
+    const mergeRows = params =>{
+        //row行：column列（垂直方向），
+        const {row,column,rowIndex,columnIndex} = params;
     }
 
     const deleteAll = ()=>{
