@@ -150,8 +150,8 @@ import { ref } from 'vue';
         //解包
         const datat = {'a':123,'b':'asd'};
         const {a,b} = datat;
-        console.log(a);
-        console.log(b);
+        console.log(a); //123
+        console.log(b); //'asd'
         */
         //解包传过来的参数
         //columns 表示table中所有td列的信息，td的html属性之类的

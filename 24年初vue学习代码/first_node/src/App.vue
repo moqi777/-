@@ -1,11 +1,9 @@
 <script setup>
-import products from './views/products.vue';
-import carts from './views/carts.vue';
-import router from './router';
+
 </script>
 
 <template>
-  <el-container>
+  <!-- <el-container>
     <el-header><img src="/364900f176fa0f7375efc67498968722.jpg" height="70" width="100%"></el-header>
     <el-container>
       <el-aside width="120px">
@@ -27,7 +25,11 @@ import router from './router';
         <router-view></router-view>
       </el-main>
     </el-container>
-  </el-container>
+  </el-container> -->
+  <p><router-link to="/">首页</router-link></p><br>
+  <p><router-link to="/products">产品页</router-link></p><br>
+  <p><router-link to="/carts">购物车页</router-link></p>
+  <router-view></router-view>
 </template>
 
 <style scoped>

@@ -6,8 +6,12 @@
         <el-button type="primary" @click="delSelected()">删除所选</el-button>
     </p>
 
-    <!-- ref="tableData"：设置一个名为tableData的引用，用于将表格所选行传入 -->
-    <el-table border :data="goods" ref="tableData" style="display: flex;">
+    <!-- 
+        ref="tableData"：设置一个名为tableData的引用，用于将表格所选行传入
+        show-summary：在表格尾部展示合计行
+        :summary-method="getSummaries"：通过编写getSummaries方法代码实现自定义合计规则
+    -->
+    <el-table show-summary :summary-method="getSummaries" border :data="goods" ref="tableData" style="display: flex;">
         <el-table-column fixes="left" type="selection" width="50px"></el-table-column>
         <el-table-column width="100" label="产品ID" prop="id"></el-table-column>
         <el-table-column width="100" label="产品名" prop="name"></el-table-column>
@@ -100,6 +104,26 @@
             }
         })
         save();
+    }
+    //尾部合计行
+    const getSummaries = param=>{
+        /*
+        //解包
+        const datat = {'a':123,'b':'asd'};
+        const {a,b} = datat;
+        console.log(a); //123
+        console.log(b); //'asd'
+        */
+        //解包传过来的参数
+        //columns 表示table中所有td列的信息，td的html属性之类的
+        //data 就是数据，实际上就是carts
+        const {column,data} = param;
+        let sum = 0;
+        data.forEach(item=>{
+            sum += item.stock;
+        })
+        //返回的数组元素依次从左往右放入尾部合计行
+        return ['','','','总库存',sum]
     }
     //弹窗关闭时清空addForm
     const dialogClosed = () =>{

@@ -362,8 +362,12 @@ products.vue
         <el-button type="primary" @click="delSelected()">删除所选</el-button>
     </p>
 
-    <!-- ref="tableData"：设置一个名为tableData的引用，用于将表格所选行传入 -->
-    <el-table border :data="goods" ref="tableData" style="display: flex;">
+    <!-- 
+        ref="tableData"：设置一个名为tableData的引用，用于将表格所选行传入
+        show-summary：在表格尾部展示合计行
+        :summary-method="getSummaries"：通过编写getSummaries方法代码实现自定义合计规则
+    -->
+    <el-table show-summary :summary-method="getSummaries" border :data="goods" ref="tableData" style="display: flex;">
         <el-table-column fixes="left" type="selection" width="50px"></el-table-column>
         <el-table-column width="100" label="产品ID" prop="id"></el-table-column>
         <el-table-column width="100" label="产品名" prop="name"></el-table-column>
@@ -457,6 +461,26 @@ products.vue
         })
         save();
     }
+    //尾部合计行
+    const getSummaries = param=>{
+        /*
+        //解包
+        const datat = {'a':123,'b':'asd'};
+        const {a,b} = datat;
+        console.log(a); //123
+        console.log(b); //'asd'
+        */
+        //解包传过来的参数
+        //columns 表示table中所有td列的信息，td的html属性之类的
+        //data 就是数据，实际上就是carts
+        const {column,data} = param;
+        let sum = 0;
+        data.forEach(item=>{
+            sum += item.stock;
+        })
+        //返回的数组元素依次从左往右放入尾部合计行
+        return ['','','','总库存',sum]
+    }
     //弹窗关闭时清空addForm
     const dialogClosed = () =>{
         addForm.value = {id:'',name:'',price:100,stock:10};
@@ -512,15 +536,77 @@ products.vue
 </script>
 ```
 
+#### 3.5 引入路由
 
-
-
-
-4：引入路由
+引入路由包
 
 ```
 pnpm install vue-router --save
 ```
+
+配置路由文件
+
+1. src下创建路由文件夹router
+2. 在其中创建一个路由配置的js文件
+3. 在配置文件中，对每个vue组件配置好请求地址（path）
+4. export导出router
+
+index.js
+
+```js
+import { createRouter,createWebHashHistory } from "vue-router";
+
+const router = createRouter({
+    history:createWebHashHistory(),//寻址方式
+    routes:[
+        {
+            path:'/',//网页地址
+            redirect:'/home',//重定向到/heme地址
+        },
+        {
+            path:'/home',//路由地址
+            name:'home',
+            component:()=>import('../components/HelloWorld.vue')//组件
+        },
+        {
+            path:'/carts',
+            name:'carts',
+            component:()=>import('../views/carts.vue')
+        },
+        {
+            path:'/products',
+            name:'products',
+            component:()=>import('../views/products.vue')
+        },
+    ]
+})
+export default router;
+```
+
+在main.js中，导入router包并加入进vue
+
+```js
+//导入路由
+import router from './router'
+
+//使用路由,该行代码写在vue.mount前
+vue.use(router)
+```
+
+在App.vue中，将组件与路由进行配置
+
+```vue
+<template>
+  <router-link to="/">首页</router-link><br>
+  <router-link to="/products">产品页</router-link><br>
+  <router-link to="/carts">购物车页</router-link>
+  <router-view></router-view>
+</template>
+```
+
+
+
+
 
 5：引入axios
 
