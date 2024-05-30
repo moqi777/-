@@ -1,7 +1,9 @@
-import { createRouter,createWebHashHistory } from "vue-router";
+import { createRouter,createWebHashHistory,createWebHistory } from "vue-router";
 
 const router = createRouter({
-    history:createWebHashHistory(),//寻址方式
+    //createWebHashHistory：一种URL 寻址方式，中间有了个#(http://localhost:5173/products)
+    //createWebHistory：另一种方式，直接地址。不推荐使用，前后端一起使用会报错。(http://localhost:5173/products#/products)
+    history:createWebHashHistory(),
     routes:[
         {
             path:'/',//网页地址
