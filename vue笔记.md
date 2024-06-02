@@ -554,10 +554,13 @@ pnpm install vue-router --save
 index.js
 
 ```js
-import { createRouter,createWebHashHistory } from "vue-router";
+import { createRouter,createWebHashHistory,createWebHistory } from "vue-router";
 
 const router = createRouter({
-    history:createWebHashHistory(),//寻址方式
+    //配置路由历史模式,常用的两种历史模式（寻址方式）
+    //createWebHashHistory：URL带#号，无需服务器支持，快速实现
+    //createWebHistory：更干净的URL，需服务器支持
+    history:createWebHashHistory(),
     routes:[
         {
             path:'/',//网页地址
@@ -581,6 +584,7 @@ const router = createRouter({
     ]
 })
 export default router;
+
 ```
 
 在main.js中，导入router包并加入进vue

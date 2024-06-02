@@ -1,8 +1,9 @@
 import { createRouter,createWebHashHistory,createWebHistory } from "vue-router";
 
 const router = createRouter({
-    //createWebHashHistory：一种URL 寻址方式，中间有了个#(http://localhost:5173/products)
-    //createWebHistory：另一种方式，直接地址。不推荐使用，前后端一起使用会报错。(http://localhost:5173/products#/products)
+    //配置路由历史模式,常用的两种历史模式（寻址方式）
+    //createWebHashHistory：URL带#号，无需服务器支持，快速实现
+    //createWebHistory：更干净的URL，需服务器支持
     history:createWebHashHistory(),
     routes:[
         {
