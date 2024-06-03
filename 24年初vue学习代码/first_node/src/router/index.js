@@ -8,7 +8,7 @@ const router = createRouter({
     routes:[
         {
             path:'/',//网页地址
-            redirect:'/home',//重定向到/heme地址
+            redirect:'/home',//重定向到/home地址
         },
         {
             path:'/home',//路由地址
