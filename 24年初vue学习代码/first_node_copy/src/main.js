@@ -5,9 +5,11 @@ import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 import locale from 'element-plus/es/locale/lang/zh-cn'
+import router from './router'
 
 const vue = createApp(App);
 vue.use(ElementPlus,{locale})
+vue.use(router);
 vue.mount('#app');
 
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {

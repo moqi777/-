@@ -3,18 +3,18 @@
     <el-header>
 
       <el-tabs
-      v-model="editableTabsValue" 
-      type="card" 
-      class="demo-tabs" 
-      closable
-      @tab-remove="removeTab"
-      @tab-change="changeTab"
+        v-model="editableTabsValue" 
+        type="card" 
+        class="demo-tabs" 
+        closable
+        @tab-remove="removeTab"
+        @tab-change="changeTab"
       >
         <el-tab-pane
-        v-for="item in editableTabs"
-        :key="item.name"
-        :label="item.title"
-        :name="item.name"
+          v-for="item in editableTabs"
+          :key="item.name"
+          :label="item.title"
+          :name="item.name"
         ></el-tab-pane>
       </el-tabs>
 
@@ -23,18 +23,17 @@
 
       <el-aside width="120px">
         <p>
-          <el-button @click="changeMenu('/','首页')" type="primary">首页</el-button>
-          <!-- <router-link to="/">首页</router-link> -->
+          <el-button @click="changeMenu('/','首页')" >首页</el-button>
         </p>
         <p>
           <el-button @click="changeMenu('/products','产品页')" type="primary">产品页</el-button>
-          <!-- <router-link to="/products">产品页</router-link> -->
         </p>
         <p>
           <el-button @click="changeMenu('/carts','购物车页')" type="primary">购物车</el-button>
-          <!-- <router-link to="/carts">购物车页</router-link> -->
         </p>
-        <p><el-button @click="changeMenu('/news','新闻页')" type="primary">新闻</el-button></p> 
+        <p>
+          <el-button @click="changeMenu('/news','新闻页')" type="primary">新闻</el-button>
+        </p> 
       </el-aside>
 
       <el-main>
@@ -112,7 +111,7 @@ const changeTab = targetName=>{
 .demo-tabs{
   margin-left: 200px;
   margin-top: 20px;
-  width: 60%;
+  width: 80%;
 }
 .demo-tabs > .el-tabs_content{
   padding: 32px;
