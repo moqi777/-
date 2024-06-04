@@ -37,7 +37,28 @@
       </el-aside>
 
       <el-main>
-        <router-view></router-view>
+        <select v-model="code">
+          <option value="1">a插槽</option>
+          <option value="2">b插槽</option>
+          <option value="3">默认插槽</option>
+        </select>
+        <!-- <router-view></router-view> -->
+        <!-- 3.使用子组件标签，可传自定义属性值，或js中定义的数组(:变量绑定)，变量名均可自定义 -->
+        <bottom w="200" h="300" :params="msg" :c="code">
+          <!-- 插槽传值 bottom中间的为插槽内容 全部传入子组件中 -->
+          <!-- <h1>App.vue</h1>
+          <img src="/public/image.png" width="100" height="100">
+          <products/> -->
+          <!-- 具名插槽 -->
+          <template #a>
+            <h1>a插槽</h1>
+          </template>
+          <template #b>
+            <h1>b插槽</h1>
+          </template>
+          <!-- 默认插槽 名为default(类似于#default) -->
+          <p>默认插槽</p>
+        </bottom>
       </el-main>
 
     </el-container>
@@ -47,6 +68,23 @@
 <script setup>
 import {ref} from 'vue';
 import { useRouter } from 'vue-router';
+
+import products from './views/products.vue';
+//props传值
+//1.引入子组件
+import bottom from './views/bottom.vue';
+//2.赋值变量
+const msg = [
+  {
+    name:'石头人',
+    age:10
+  },
+  {
+    name:'亚瑟',
+    age:19
+  }
+]
+const code = ref(1);
 
 const router = useRouter();
 const editableTabs = ref([

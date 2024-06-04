@@ -77,6 +77,7 @@
     所以需要使用ref函数使其变成响应式的
     */
 	import { onMounted, ref } from 'vue'   
+    import { ElMessage,ElMessageBox } from 'element-plus'//导入信息弹出框依赖包
 
     //保存页面和修改页面的开关
     let showAddDialog = ref(false);
@@ -96,14 +97,35 @@
     }
 	//删除指定id行
     const del = id =>{
-        //使用了ref后goods不单单只是个数组了，所以需要.value
-        goods.value.forEach((item,i) => {
-            if(item.id == id){
-                //删除i位置开始的1个数据
-                goods.value.splice(i,1);
+        ElMessageBox.confirm(
+            '确认删除吗',
+            '警告',
+            {
+                confirmButtonText:'确认',//按钮的文字
+                cancelButtonText:'取消',
+                type:'warning'//样式
             }
+        )
+        .then(()=>{//ok事件
+            //使用了ref后goods不单单只是个数组了，所以需要.value
+            goods.value.forEach((item,i) => {
+                if(item.id == id){
+                    //删除i位置开始的1个数据
+                    goods.value.splice(i,1);
+                }
+            })
+            save();
+            ElMessage({
+                type: 'success',
+                message: '删除成功',
+            })
         })
-        save();
+        .catch(()=>{//取消事件
+            ElMessage({
+                type: 'info',
+                message: '取消删除',
+            })
+        })
     }
     //尾部合计行
     const getSummaries = param=>{
