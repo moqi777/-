@@ -778,11 +778,7 @@ const changeTab = targetName=>{
 
 
 
-
-
-
-
-5：引入axios
+#### 3.7 引入axios
 
 ```
 pnpm install axios --save
@@ -791,33 +787,11 @@ pnpm install axios --save
 6：把main.js改为如下代码：
 
 ```
-import { createApp } from 'vue'
-import App from './App.vue'
-import router from './router'
 import  axios  from 'axios'
-//导入ElementPlus组件
-import ElementPlus from 'element-plus'
-import 'element-plus/dist/index.css'
-import * as ElementPlusIconsVue from '@element-plus/icons-vue'
-import locale from 'element-plus/es/locale/lang/zh-cn'
+
 // 设置基础访问路径
 axios.defaults.baseURL='http://127.0.0.1:88/'
 
-const app = createApp(App)
-app.use(router)
-app.use(ElementPlus, {locale })
-app.mount('#app')
-for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
-    app.component(key, component)
-  }
 app.config.globalProperties.$axios = axios
 ```
 
-7：运行项目
-
-```
- pnpm install
- pnpm run dev
-```
-
-# 
