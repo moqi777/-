@@ -93,6 +93,7 @@
 
 <script setup>
 import { ref } from 'vue';
+import { ElMessage,ElMessageBox } from 'element-plus';
 
     var carts = ref([]);
     var showAddDialog = ref(false);
@@ -137,11 +138,32 @@ import { ref } from 'vue';
     }
 
     const del = pid =>{
-        carts.value.forEach((item,i)=>{
-            if(item.pid==pid){
-                carts.value.splice(i,1);
+        ElMessageBox.confirm(
+            '确认删除吗',
+            '警告',
+            {
+                confirmButtonText:'确认',
+                cancelButtonText:'取消',
+                type:'warning'
             }
+        )
+        .then(()=>{
+            carts.value.forEach((item,i)=>{
+                if(item.pid==pid){
+                    carts.value.splice(i,1);
+                }
+            })
+            ElMessage({
+                type:'success',
+                message:'删除成功'
+            })
         })
+        .catch(()=>[
+            ElMessage({
+                type:'info',
+                message:'删除失败'
+            })
+        ])
     }
 
     //表尾合计行自定义规则

@@ -37,12 +37,14 @@
       </el-aside>
 
       <el-main>
+        <router-view></router-view>
+
         <select v-model="code">
           <option value="1">a插槽</option>
           <option value="2">b插槽</option>
           <option value="3">默认插槽</option>
         </select>
-        <!-- <router-view></router-view> -->
+        
         <!-- 3.使用子组件标签，可传自定义属性值，或js中定义的数组(:变量绑定)，变量名均可自定义 -->
         <bottom w="200" h="300" :params="msg" :c="code">
           <!-- 插槽传值 bottom中间的为插槽内容 全部传入子组件中 -->

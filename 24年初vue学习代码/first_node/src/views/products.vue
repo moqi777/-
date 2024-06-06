@@ -95,14 +95,15 @@
         goods.value = goods.value.filter(item=> !rows.includes(item));
         save();
     }
-	//删除指定id行
+	//删除指定id行，点击有 确认删除 信息弹出框
     const del = id =>{
+        //打开确认对话框，显示指定的信息和标题
         ElMessageBox.confirm(
-            '确认删除吗',
-            '警告',
+            '确认删除吗',//参数一：提示内容
+            '警告',//参数二：提示标题
             {
-                confirmButtonText:'确认',//按钮的文字
-                cancelButtonText:'取消',
+                confirmButtonText:'确认',//确认按钮的文字
+                cancelButtonText:'取消',//取消按钮的文字
                 type:'warning'//样式
             }
         )
@@ -115,14 +116,15 @@
                 }
             })
             save();
+            //信息弹出框关闭后弹出的提示信息
             ElMessage({
-                type: 'success',
+                type: 'success',//表示操作成功的提示信息
                 message: '删除成功',
             })
         })
         .catch(()=>{//取消事件
             ElMessage({
-                type: 'info',
+                type: 'info',//表示普通的提示信息
                 message: '取消删除',
             })
         })

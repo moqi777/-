@@ -435,6 +435,7 @@ products.vue
     所以需要使用ref函数使其变成响应式的
     */
 	import { onMounted, ref } from 'vue'   
+    import { ElMessage,ElMessageBox } from 'element-plus'//导入信息弹出框依赖包
 
     //保存页面和修改页面的开关
     let showAddDialog = ref(false);
@@ -452,16 +453,39 @@ products.vue
         goods.value = goods.value.filter(item=> !rows.includes(item));
         save();
     }
-	//删除指定id行
+	//删除指定id行，点击有 确认删除 信息弹出框
     const del = id =>{
-        //使用了ref后goods不单单只是个数组了，所以需要.value
-        goods.value.forEach((item,i) => {
-            if(item.id == id){
-                //删除i位置开始的1个数据
-                goods.value.splice(i,1);
+        //打开确认对话框，显示指定的信息和标题
+        ElMessageBox.confirm(
+            '确认删除吗',//参数一：提示内容
+            '警告',//参数二：提示标题
+            {
+                confirmButtonText:'确认',//确认按钮的文字
+                cancelButtonText:'取消',//取消按钮的文字
+                type:'warning'//样式
             }
+        )
+        .then(()=>{//ok事件
+            //使用了ref后goods不单单只是个数组了，所以需要.value
+            goods.value.forEach((item,i) => {
+                if(item.id == id){
+                    //删除i位置开始的1个数据
+                    goods.value.splice(i,1);
+                }
+            })
+            save();
+            //信息弹出框关闭后弹出的提示信息
+            ElMessage({
+                type: 'success',//表示操作成功的提示信息
+                message: '删除成功',
+            })
         })
-        save();
+        .catch(()=>{//取消事件
+            ElMessage({
+                type: 'info',//表示普通的提示信息
+                message: '取消删除',
+            })
+        })
     }
     //尾部合计行
     const getSummaries = param=>{
@@ -778,7 +802,74 @@ const changeTab = targetName=>{
 
 
 
-#### 3.7 引入axios
+```
+        <select v-model="code">
+          <option value="1">a插槽</option>
+          <option value="2">b插槽</option>
+          <option value="3">默认插槽</option>
+        </select>
+        <!-- <router-view></router-view> -->
+        <!-- 3.使用子组件标签，可传自定义属性值，或js中定义的数组(:变量绑定)，变量名均可自定义 -->
+        <bottom w="200" h="300" :params="msg" :c="code">
+          <!-- 插槽传值 bottom中间的为插槽内容 全部传入子组件中 -->
+          <!-- <h1>App.vue</h1>
+          <img src="/public/image.png" width="100" height="100">
+          <products/> -->
+          <!-- 具名插槽 -->
+          <template #a>
+            <h1>a插槽</h1>
+          </template>
+          <template #b>
+            <h1>b插槽</h1>
+          </template>
+          <!-- 默认插槽 名为default(类似于#default) -->
+          <p>默认插槽</p>
+        </bottom>
+```
+
+#### 3.9 组件传值
+
+**props传值**
+
+父组件可以将数据通过 `props` 传递给子组件。首先，我们创建一个父组件并在模板中使用子组件，并通过 `props` 将数据传递给子组件。
+
+```vue
+<script setup>
+//1.引入子组件
+import Header from './components/Header.vue';
+//2.赋值变量
+const msg=[{name:'石头人',age:10},{name:'亚瑟',age:15}];
+</script>
+
+<template>
+  <!-- 
+    3.使用子组件标签，可传自定义属性值
+      或js中定义的数组(:变量绑定)，变量名均可自定义 
+      :params='一个变量也可'
+  -->
+  <Header w="100" h="200" :params="msg"></Header>
+</template>
+```
+
+子组件需要通过 `props` 选项声明它接收的数据类型。然后，在模板中使用这些数据。
+
+```vue
+<template>
+    <h1>props传值</h1>
+</template>
+
+<script setup>
+    //defineProps函数：用于声明和获取父组件传递给子组件的props
+    //数组中的值为父组件中bottom标签的属性名
+    const props = defineProps(['w','h','params']);
+    console.log(props.w,props.h);
+    console.log(props.params);
+</script>       
+```
+
+
+
+#### 3.8 引入axios
 
 ```
 pnpm install axios --save
