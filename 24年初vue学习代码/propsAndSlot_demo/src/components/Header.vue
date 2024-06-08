@@ -8,4 +8,5 @@
     const props = defineProps(['w','h','params']);
     console.log(props.w,props.h);
     console.log(props.params);
+	
 </script>       
